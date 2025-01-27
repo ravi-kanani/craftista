@@ -1,0 +1,30 @@
+services:
+  catalogue:
+    build: ./catalogue
+    container_name: craftista-catalogue
+    depends_on:
+      - catalogue-db
+
+  catalogue-db:
+    image: postgres
+    container_name: craftista-catalogue-db
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: catalogue
+      POSTGRES_USER: devops
+      POSTGRES_PASSWORD: devops
+
+  frontend:
+    build: ./frontend
+    container_name: craftista-frontend
+    ports:
+      - 80:3000
+
+  recommendation:
+    build: ./recommendation
+    container_name: craftista-recommendation
+
+  voting:
+    build: ./voting
+    container_name: craftista-voting
